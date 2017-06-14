@@ -23,8 +23,8 @@ akka {
       kryo = "com.romix.akka.serialization.kryo.KryoSerializer"
     }
     serialization-bindings {
-      "java.io.Serializable" = none
-      "moe.taiho.course_selection.KryoSerializable" = kryo
+      //"java.io.Serializable" = none
+      //"moe.taiho.course_selection.KryoSerializable" = kryo
     }
     kryo {
       type = "nograph"
@@ -63,8 +63,10 @@ akka {
 # Disable legacy metrics in akka-cluster.
 akka.cluster.metrics.enabled=off
 
-# Enable metrics extension in akka-cluster-metrics.
-akka.extensions=["akka.cluster.metrics.ClusterMetricsExtension"]
+akka.extensions=[
+  "akka.cluster.metrics.ClusterMetricsExtension",
+  "com.romix.akka.serialization.kryo.KryoSerializationExtension\$"
+]
 
 # Sigar native library extract location during tests.
 # Note: use per-jvm-instance folder when running multiple jvm on one host.
