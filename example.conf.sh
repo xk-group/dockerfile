@@ -1,12 +1,17 @@
 #!/usr/bin/bash
 
-ROLES='["course"]'
-SEED1_HOST=10.0.0.1
-SEED1_PORT=2552
-SEED2_HOST=10.0.0.2
-SEED2_PORT=2552
-HOSTNAME=10.0.0.3
-PORT=2552
+ROLES="$1"
+HOSTNAME="$2"
+PORT="$3"
+SEED1_HOST="$4"
+SEED1_PORT="$5"
+SEED2_HOST="$6"
+SEED2_PORT="$7"
+
+if [ "$SEED2_PORT" == "" ]; then
+    echo "$0 '[\"course\"]' 10.0.0.1 2552 10.0.0.2 2552 10.0.0.3 2552"
+    exit 0
+fi
 
 cat <<EOF
 akka {
