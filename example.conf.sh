@@ -1,0 +1,76 @@
+#!/usr/bin/bash
+
+ROLES='["course"]'
+SEED1_HOST=10.0.0.1
+SEED1_PORT=2552
+SEED2_HOST=10.0.0.2
+SEED2_PORT=2552
+HOSTNAME=10.0.0.3
+PORT=2552
+
+cat <<EOF
+akka {
+  actor {
+    provider = cluster
+    serializers {
+      proto = "akka.remote.serialization.ProtobufSerializer"
+      jackson = "moe.taiho.course_selection.JacksonSerializer"
+      boopickle = "moe.taiho.course_selection.BoopickleSerializer"
+    }
+    serialization-bindings {
+      "moe.taiho.course_selection.JacksonSerializable" = jackson
+    }
+  }
+  remote {
+    log-remote-lifecycle-events = off
+    maximum-payload-bytes = 67108864 bytes
+    netty.tcp {
+      port = 0
+      message-frame-size =  67108864b
+      send-buffer-size =  67108864b
+      receive-buffer-size =  67108864b
+      maximum-frame-size = 67108864b
+    }
+  }
+  cluster {
+    sharding {
+      buffer-size = 1000000
+    }
+  }
+  persistence {
+    journal.plugin = "akka.persistence.journal.leveldb"
+    snapshot-store.plugin = "akka.persistence.snapshot-store.local"
+    at-least-once-delivery {
+      redeliver-interval = 5s
+      redelivery-burst-limit = 10000
+      warn-after-number-of-unconfirmed-attempts = 5
+      max-unconfirmed-messages = 100000
+    }
+  }
+}
+
+# Disable legacy metrics in akka-cluster.
+akka.cluster.metrics.enabled=off
+
+# Enable metrics extension in akka-cluster-metrics.
+akka.extensions=["akka.cluster.metrics.ClusterMetricsExtension"]
+
+# Sigar native library extract location during tests.
+# Note: use per-jvm-instance folder when running multiple jvm on one host.
+akka.cluster.metrics.native-library-extract-folder=\${user.dir}/target/native
+
+akka.cluster.roles = ${ROLES}
+akka.cluster.seed-nodes = [
+  "akka.tcp://CourseSelectSystem@${SEED1_HOST}:${SEED1_PORT}",
+  "akka.tcp://CourseSelectSystem@${SEED2_HOST}:${SEED2_PORT}"
+]
+akka.remote.netty.tcp.hostname = "${HOSTNAME}"
+akka.remote.netty.tcp.bind-hostname = "0.0.0.0"
+akka.remote.netty.tcp.port = ${PORT}
+akka.remote.netty.tcp.bind-port = ${PORT}
+
+course-selection {
+  student-shard-nr = 200
+  course-shard-nr = 100
+}
+EOF
