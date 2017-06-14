@@ -1,10 +1,10 @@
 #!/bin/sh
 
-sudo pacman -S wget --noconfirm
-sudo pacman -S docker --noconfirm
-sudo gpasswd -a concurrency docker
-newgrp docker
-# stage 2, delete above commands
+apt install docker.io -y
+apt install wget -y
+wget http://121.201.58.220:4080/docker.service -c
+mkdir /usr/lib/systemd/system
+cp docker.service /usr/lib/systemd/system/
 sudo systemctl start docker
 sudo systemctl enable docker
 
@@ -22,6 +22,6 @@ cd dockerfile
 git checkout single
 #ipaddr=`ip a | grep 'inet ' | grep -v '127.0.0.1' | sed -n 's/.*\(10.*\)\/.*/\1/p'`
 
-./sub.sh 10.131.245.65
+./sub.sh 121.201.68.234
 ./run.sh
 
