@@ -7,9 +7,10 @@ SEED1_HOST="$4"
 SEED1_PORT="$5"
 SEED2_HOST="$6"
 SEED2_PORT="$7"
+HTTP_PORT="$8"
 
-if [ "$SEED2_PORT" == "" ]; then
-    echo "$0 '[\"course\"]' 10.0.0.1 2552 10.0.0.2 2552 10.0.0.3 2552"
+if [ "$8" == "" ]; then
+    echo "$0 '[\"course\"]' 10.0.0.1 2552 10.0.0.2 2552 10.0.0.3 2552 7000"
     exit 0
 fi
 
@@ -77,5 +78,6 @@ akka.remote.netty.tcp.bind-port = ${PORT}
 course-selection {
   student-shard-nr = 200
   course-shard-nr = 100
+  http-port = $HTTP_PORT
 }
 EOF
