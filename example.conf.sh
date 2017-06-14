@@ -19,12 +19,17 @@ akka {
   actor {
     provider = cluster
     serializers {
-      proto = "akka.remote.serialization.ProtobufSerializer"
-      jackson = "moe.taiho.course_selection.JacksonSerializer"
-      boopickle = "moe.taiho.course_selection.BoopickleSerializer"
+      java = "akka.serialization.JavaSerializer"
+      kryo = "com.romix.akka.serialization.kryo.KryoSerializer"
     }
     serialization-bindings {
-      "moe.taiho.course_selection.JacksonSerializable" = jackson
+      //"java.io.Serializable" = none
+      //"moe.taiho.course_selection.KryoSerializable" = kryo
+    }
+    kryo {
+      type = "nograph"
+      idstrategy = "incremental"
+      post-serialization-transformations = "off"
     }
   }
   remote {
