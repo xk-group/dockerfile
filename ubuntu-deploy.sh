@@ -8,7 +8,7 @@ cp docker.service /usr/lib/systemd/system/
 sudo systemctl start docker
 sudo systemctl enable docker
 
-wget http://121.201.58.220:4080/course-selection-ubuntu.tar -c
+wget http://121.201.58.220:4080/course-selection.tar -c
 
 docker load -i course-selection.tar
 
