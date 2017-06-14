@@ -23,8 +23,8 @@ akka {
       kryo = "com.romix.akka.serialization.kryo.KryoSerializer"
     }
     serialization-bindings {
-      //"java.io.Serializable" = none
-      //"moe.taiho.course_selection.KryoSerializable" = kryo
+      "java.io.Serializable" = none
+      "moe.taiho.course_selection.KryoSerializable" = kryo
     }
     kryo {
       type = "nograph"
