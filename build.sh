@@ -2,6 +2,8 @@
 
 git submodule update --init
 cd course-selection
+git checkout -- .
+git clean -xdf
 git checkout test
 ./gradlew clean shadowJar
 cd ..
