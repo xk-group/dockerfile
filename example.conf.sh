@@ -23,12 +23,12 @@ akka {
       kryo = "com.romix.akka.serialization.kryo.KryoSerializer"
     }
     serialization-bindings {
-      //"java.io.Serializable" = none
+      //"java.io.Serializable" = kryo
       //"moe.taiho.course_selection.KryoSerializable" = kryo
     }
     kryo {
-      type = "nograph"
-      idstrategy = "incremental"
+      //type = "nograph" nograph is buggy too???
+      idstrategy = "automatic" // incremental is buggy???
       post-serialization-transformations = "off"
     }
   }
