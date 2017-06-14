@@ -5,4 +5,4 @@ COPY course-selection-all.jar /usr/lib/course-selection/course-selection-all.jar
 #COPY example.conf /usr/lib/course-selection/example.conf
 WORKDIR /usr/lib/course-selection
 RUN apk update && apk add libstdc++
-ENTRYPOINT ["java", "-cp", "/usr/lib/course-selection/course-selection-all.jar", "-Dconfig.file=config/example.conf"]
+ENTRYPOINT ["java", "-jar", "/usr/lib/course-selection/course-selection-all.jar", "-Dconfig.file=config/example.conf"]
