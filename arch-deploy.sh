@@ -19,7 +19,7 @@ docker load -i course-selection.tar
 rm -rf dockerfile
 git clone http://github.com/xk-group/dockerfile.git
 cd dockerfile
-git checkout single
+git checkout master
 #ipaddr=`ip a | grep 'inet ' | grep -v '127.0.0.1' | sed -n 's/.*\(10.*\)\/.*/\1/p'`
 
 ./sub.sh 10.131.245.65
