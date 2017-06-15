@@ -28,4 +28,4 @@ To kill and remove all these running containers, run
 ```
 ## Deployment
 
-The scripts `arch-deploy.sh` and `ubuntu-deploy.sh` can be used with pssh to do batch deployment on archlinux, and ubuntu 16.04. There may be some bugs in these scripts.
+The scripts `arch-deploy.sh` and `ubuntu-deploy.sh` can be used with pssh to do batch deployment on archlinux, and ubuntu 16.04. In order to successfully use these scripts, you must read the script, and make modification accordingly.
