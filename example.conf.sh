@@ -1,0 +1,90 @@
+#!/usr/bin/bash
+
+ROLES="$1"
+HOSTNAME="$2"
+PORT="$3"
+SEED1_HOST="$4"
+SEED1_PORT="$5"
+SEED2_HOST="$6"
+SEED2_PORT="$7"
+HTTP_PORT="$8"
+
+if [ "$8" == "" ]; then
+    echo "$0 '[\"course\"]' 10.0.0.1 2552 10.0.0.2 2552 10.0.0.3 2552 7000"
+    exit 0
+fi
+
+cat <<EOF
+akka {
+  actor {
+    provider = cluster
+    serializers {
+      java = "akka.serialization.JavaSerializer"
+      kryo = "com.romix.akka.serialization.kryo.KryoSerializer"
+    }
+    serialization-bindings {
+      //"java.io.Serializable" = kryo
+      //"moe.taiho.course_selection.KryoSerializable" = kryo
+    }
+    kryo {
+      //type = "nograph" nograph is buggy too???
+      idstrategy = "automatic" // incremental is buggy???
+      post-serialization-transformations = "off"
+    }
+  }
+  remote {
+    log-remote-lifecycle-events = off
+    maximum-payload-bytes = 67108864 bytes
+    netty.tcp {
+      port = 0
+      message-frame-size =  67108864b
+      send-buffer-size =  67108864b
+      receive-buffer-size =  67108864b
+      maximum-frame-size = 67108864b
+    }
+  }
+  cluster {
+    sharding {
+      buffer-size = 1000000
+    }
+  }
+  persistence {
+    journal.plugin = "akka.persistence.journal.leveldb"
+    snapshot-store.plugin = "akka.persistence.snapshot-store.local"
+    at-least-once-delivery {
+      redeliver-interval = 5s
+      redelivery-burst-limit = 10000
+      warn-after-number-of-unconfirmed-attempts = 5
+      max-unconfirmed-messages = 100000
+    }
+  }
+}
+
+# Disable legacy metrics in akka-cluster.
+akka.cluster.metrics.enabled=off
+
+akka.extensions=[
+  "akka.cluster.metrics.ClusterMetricsExtension",
+  "com.romix.akka.serialization.kryo.KryoSerializationExtension\$"
+]
+
+# Sigar native library extract location during tests.
+# Note: use per-jvm-instance folder when running multiple jvm on one host.
+akka.cluster.metrics.native-library-extract-folder=\${user.dir}/target/native
+
+akka.cluster.roles = ${ROLES}
+akka.cluster.seed-nodes = [
+  "akka.tcp://CourseSelectSystem@${SEED1_HOST}:${SEED1_PORT}",
+  "akka.tcp://CourseSelectSystem@${SEED2_HOST}:${SEED2_PORT}"
+]
+akka.remote.netty.tcp.hostname = "${HOSTNAME}"
+akka.remote.netty.tcp.bind-hostname = "0.0.0.0"
+akka.remote.netty.tcp.port = ${PORT}
+akka.remote.netty.tcp.bind-port = ${PORT}
+
+course-selection {
+  student-shard-nr = 200
+  course-shard-nr = 100
+  http-port = $HTTP_PORT
+}
+EOF
