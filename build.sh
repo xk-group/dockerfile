@@ -1,6 +1,5 @@
 #!/bin/sh
 
-mkdir -p course-selection
 git submodule update --init
 cd course-selection
 git checkout -- .
