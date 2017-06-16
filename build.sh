@@ -9,7 +9,10 @@ git checkout test
 cd ..
 
 cp course-selection/build/libs/course-selection-all.jar .
-rm -rf course-selection
+cd course-selection
+git clean -- .
+git clean -xdf
+cd ..
 
 docker rmi course-selection
 docker build -t course-selection .
