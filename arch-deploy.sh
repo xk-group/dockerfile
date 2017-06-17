@@ -1,6 +1,5 @@
 #!/bin/sh
 
-sudo pacman -S wget --noconfirm
 sudo pacman -S docker --noconfirm
 sudo gpasswd -a concurrency docker
 newgrp docker
@@ -8,13 +7,12 @@ newgrp docker
 sudo systemctl start docker
 sudo systemctl enable docker
 
-wget http://121.201.58.220:4080/course-selection.tar -c
-
 docker kill student-actor-container course-actor-container http-actor-container
 docker rm student-actor-container course-actor-container http-actor-container
 
-docker rmi course-selection
-docker load -i course-selection.tar
+docker rmi crazyboycjr/course-selection
+docker pull crazyboycjr/course-selection
+docker tag crazyboycjr/course-selection course-selection
 
 rm -rf dockerfile
 git clone http://github.com/xk-group/dockerfile.git
