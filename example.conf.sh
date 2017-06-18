@@ -20,16 +20,10 @@ akka {
     provider = cluster
     serializers {
       java = "akka.serialization.JavaSerializer"
-      kryo = "com.romix.akka.serialization.kryo.KryoSerializer"
+      kryo = "com.twitter.chill.akka.AkkaSerializer"
     }
     serialization-bindings {
-      //"java.io.Serializable" = kryo
       //"moe.taiho.course_selection.KryoSerializable" = kryo
-    }
-    kryo {
-      //type = "nograph" nograph is buggy too???
-      idstrategy = "automatic" // incremental is buggy???
-      post-serialization-transformations = "off"
     }
   }
   remote {
