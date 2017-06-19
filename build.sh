@@ -5,7 +5,7 @@ cd course-selection
 git checkout -- .
 git clean -xdf
 git checkout test
-git rebase
+git pull --rebase
 ./gradlew clean shadowJar
 cd ..
 
