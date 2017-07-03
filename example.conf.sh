@@ -23,7 +23,7 @@ akka {
       kryo = "com.twitter.chill.akka.AkkaSerializer"
     }
     serialization-bindings {
-      //"moe.taiho.course_selection.KryoSerializable" = kryo
+      "moe.taiho.course_selection.KryoSerializable" = kryo
     }
   }
   remote {
