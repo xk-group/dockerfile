@@ -3,6 +3,7 @@
 sudo pacman -S git docker --noconfirm
 sudo gpasswd -a $USER docker
 sudo systemctl enable docker
+sudo systemctl start docker
 
 rm -rf dockerfile
 git clone https://github.com/xk-group/dockerfile.git
