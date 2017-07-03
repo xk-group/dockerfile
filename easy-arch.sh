@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo pacman -S git docker --noconfirm
+sudo pacman -S git docker --noconfirm --needed
 sudo gpasswd -a $USER docker
 sudo systemctl enable docker
 sudo systemctl start docker
