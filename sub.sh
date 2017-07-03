@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #hostname=$1
-hostname=`ip a | grep 'eth' -A 4 | grep 'inet ' | sed -n 's/.*\(10.*\)\/.*/\1/p'`
+hostname=`ip a | grep 'eth.:' -A 4 | grep 'inet ' | sed -n 's/.*inet \(.*\)\/.*/\1/p'`
 
 #mkdir -p config-student
 #./example.conf.sh '["student"]' $hostname 2552 $seed 2552 $seed 2553 0 > config-student/example.conf
