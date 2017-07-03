@@ -1,6 +1,6 @@
 #!/bin/sh
 
-srvip=10.222.130.19
+srvip=127.0.0.1
 
 curl "http://$srvip:7000/hello"
 echo
