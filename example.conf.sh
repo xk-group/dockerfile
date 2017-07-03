@@ -44,6 +44,7 @@ akka {
   }
   persistence {
     journal.plugin = "akka.persistence.journal.leveldb"
+    journal.leveldb.fsync = off
     snapshot-store.plugin = "akka.persistence.snapshot-store.local"
     at-least-once-delivery {
       redeliver-interval = 5s
