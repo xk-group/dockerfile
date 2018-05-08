@@ -1,5 +1,32 @@
 # Dockerfiles of course-selection
 
+## Requirements
++ Docker
++ git
+## Build
+```
+./build.sh
+```
+## Generate configs
+```
+./sub.sh <listen_ip> <seed1_ip> <seed2_ip>
+```
+## Run
+```
+./run.sh
+```
+You must run the programs on the seed nodes first.
+## Generating configs manually
+```
+./example.conf.sh <role_list_in_typesafe_config_format> <listen_ip> <listen_port> <seed1_ip> <seed1_port> <seed2_ip> <seed2_port>
+```
+Save your output to config file
+## Run manually
+```
+java -cp path/to/course-selection-all.jar -Dconfig.file=path/to/example.conf moe.taiho.course_selection.cluster.ClusterMain
+```
+
+# Old readme below, for reference only
 ## Build
 
 ```
