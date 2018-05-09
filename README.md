@@ -18,7 +18,7 @@
 You must run the programs on the seed nodes first.
 ## Generating configs manually
 ```
-./example.conf.sh <role_list_in_typesafe_config_format> <listen_ip> <listen_port> <seed1_ip> <seed1_port> <seed2_ip> <seed2_port>
+./example.conf.sh <role_list_in_typesafe_config_format> <listen_ip> <listen_port> <seed1_ip> <seed1_port> <seed2_ip> <seed2_port> <http_port>
 ```
 Save your output to config file
 ## Run manually
